@@ -1,4 +1,4 @@
-package br.com.devdojo_spring_boot.anime_service;
+package br.com.devdojo.spring_boot;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

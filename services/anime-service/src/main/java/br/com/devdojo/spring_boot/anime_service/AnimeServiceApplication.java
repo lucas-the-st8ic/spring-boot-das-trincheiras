@@ -1,4 +1,4 @@
-package br.com.devdojo_spring_boot.anime_service;
+package br.com.devdojo.spring_boot.anime_service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
