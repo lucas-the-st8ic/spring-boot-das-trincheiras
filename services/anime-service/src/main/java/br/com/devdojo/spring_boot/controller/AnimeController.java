@@ -25,7 +25,7 @@ public class AnimeController {
                 .equalsIgnoreCase(name)).toList();
     }
 
-    @GetMapping("{id")
+    @GetMapping("{id}")
     public Anime findById(@PathVariable Long id) {
 
        return Anime.getAnimes()
