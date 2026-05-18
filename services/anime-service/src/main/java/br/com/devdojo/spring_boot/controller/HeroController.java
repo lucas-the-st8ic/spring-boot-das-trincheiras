@@ -39,7 +39,6 @@ public class HeroController {
         return HEROES.stream()
                 .filter(hero -> hero.equalsIgnoreCase(name))
                 .findAny().orElse(null);
-
     }
 
 }
