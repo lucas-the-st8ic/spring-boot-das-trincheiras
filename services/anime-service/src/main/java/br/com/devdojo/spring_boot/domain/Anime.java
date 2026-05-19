@@ -1,10 +1,12 @@
 package br.com.devdojo.spring_boot.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.List;
 
 @Getter
+@AllArgsConstructor
 public class Anime {
     private Long id;
     private String name;
