@@ -17,10 +17,10 @@ public class Producer {
     private static List<Producer> producers = new ArrayList<>();
 
     static {
-        Producer hajimeNoIppo = new Producer(01L, "Hajime no Ippo");
-        Producer fma = new Producer(02L, "Fullmetal Alchemist");
-        Producer dbz = new Producer(03L, "Dragon Ball - Z");
-        producers.addAll(List.of(hajimeNoIppo, fma, dbz));
+        Producer mappa = new Producer(001L, "Madhouse");
+        Producer studioBones = new Producer(002L, "Studio Bones");
+        Producer toeiAnimation = new Producer(003L, "Toei Animation");
+        producers.addAll(List.of(mappa, studioBones, toeiAnimation));
     }
 
 }
