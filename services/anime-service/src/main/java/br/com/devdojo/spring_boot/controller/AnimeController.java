@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -34,6 +35,14 @@ public class AnimeController {
                         .equals(id))
                 .findFirst().orElse(null);
 
+    }
+
+    //Idempotente
+    @PostMapping
+    public Anime save(@RequestBody Anime anime) {
+        anime.setId(ThreadLocalRandom.current().nextLong(100_000));
+        Anime.getAnimes().add(anime);
+        return anime;
     }
 
 }
