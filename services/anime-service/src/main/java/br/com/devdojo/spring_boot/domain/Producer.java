@@ -7,8 +7,9 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
+
 @Setter
+@Getter
 @AllArgsConstructor
 public class Producer {
     private Long id;
@@ -23,4 +24,7 @@ public class Producer {
         producers.addAll(List.of(mappa, studioBones, toeiAnimation));
     }
 
+    public static void setProducers(List<Producer> producers) {
+        Producer.producers = producers;
+    }
 }
