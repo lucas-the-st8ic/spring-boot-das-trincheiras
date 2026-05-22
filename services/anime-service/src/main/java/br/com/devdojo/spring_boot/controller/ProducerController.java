@@ -51,7 +51,10 @@ public class ProducerController {
         log.info(headers.toString());
         producer.setId(ThreadLocalRandom.current().nextLong(100_000));
         Producer.getProducers().add(producer);
-        return ResponseEntity.ok(producer);
+        var responseHeaders = new HttpHeaders();
+        responseHeaders.setContentType(MediaType.APPLICATION_JSON);
+        headers.add("Authorization", "My Key");
+        return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders).body(producer);
         //return ResponseEntity.status(HttpStatus.CREATED).body(producer);
     }
 
