@@ -4,8 +4,7 @@ import br.com.devdojo.spring_boot.domain.Producer;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.*;
@@ -47,12 +46,13 @@ public class ProducerController {
     //Idempotente
     @PostMapping(produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE,
     headers = "x-api-key=1234")
-    public Producer save(@RequestBody Producer producer,
+    public ResponseEntity<Producer> save(@RequestBody Producer producer,
                          @RequestHeader HttpHeaders headers) {
         log.info(headers.toString());
         producer.setId(ThreadLocalRandom.current().nextLong(100_000));
         Producer.getProducers().add(producer);
-        return producer;
+        return ResponseEntity.ok(producer);
+        //return ResponseEntity.status(HttpStatus.CREATED).body(producer);
     }
 
 
