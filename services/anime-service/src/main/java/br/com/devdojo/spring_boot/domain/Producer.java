@@ -3,6 +3,7 @@ package br.com.devdojo.spring_boot.domain;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,12 +13,13 @@ import java.util.List;
 public class Producer {
     private Long id;
     private String name;
+    private LocalDateTime createdAt;
     private static List<Producer> producers = new ArrayList<>();
 
     static {
-        Producer mappa = new Producer(01L, "Madhouse");
-        Producer studioBones = new Producer(02L, "Studio Bones");
-        Producer toeiAnimation = new Producer(03L, "Toei Animation");
+        Producer mappa = new Producer(01L, "Madhouse", LocalDateTime.now());
+        Producer studioBones = new Producer(02L, "Studio Bones", LocalDateTime.now());
+        Producer toeiAnimation = new Producer(03L, "Toei Animation", LocalDateTime.now());
         producers.addAll(List.of(mappa, studioBones, toeiAnimation));
     }
 
@@ -25,7 +27,7 @@ public class Producer {
         Producer.producers = producers;
     }
 
-    public Producer(Long id, String name) {
+    public Producer(Long id, String name, LocalDateTime now) {
         this.id = id;
         this.name = name;
     }
