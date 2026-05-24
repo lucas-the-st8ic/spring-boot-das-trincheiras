@@ -1,6 +1,8 @@
 package br.com.devdojo.spring_boot.controller;
 
 import br.com.devdojo.spring_boot.domain.Producer;
+import br.com.devdojo.spring_boot.request.ProducerPostRequest;
+import br.com.devdojo.spring_boot.response.ProducerGetResponse;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +10,7 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.*;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -46,17 +49,26 @@ public class ProducerController {
     //Idempotente
     @PostMapping(produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE,
     headers = "x-api-key=1234")
-    public ResponseEntity<Producer> save(@RequestBody Producer producer,
-                         @RequestHeader HttpHeaders headers) {
+    public ResponseEntity<ProducerGetResponse> save(@RequestBody ProducerPostRequest producerPostRequest,
+                                                    @RequestHeader HttpHeaders headers) {
         log.info(headers.toString());
-        producer.setId(ThreadLocalRandom.current().nextLong(100_000));
+        var producer = Producer.builder()
+                .id(ThreadLocalRandom.current().nextLong(100_000))
+                .name(producerPostRequest.getName())
+                .createdAt(LocalDateTime.now())
+                .build();
+
+
         Producer.getProducers().add(producer);
-        var responseHeaders = new HttpHeaders();
-        responseHeaders.setContentType(MediaType.APPLICATION_JSON);
-        headers.add("Authorization", "My Key");
-        return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders).body(producer);
+
+        var response = ProducerGetResponse.builder()
+                .id(producer.getId())
+                .name(producer.getName())
+                .createdAt(LocalDateTime.now())
+                .build();
+
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
         //return ResponseEntity.status(HttpStatus.CREATED).body(producer);
     }
-
-
 }
