@@ -27,9 +27,10 @@ public class Producer {
         Producer.producers = producers;
     }
 
-    public Producer(Long id, String name, LocalDateTime now) {
+    public Producer(Long id, String name, LocalDateTime createdAt) {
         this.id = id;
         this.name = name;
+        this.createdAt = createdAt;
     }
 
     public static List<Producer> getProducers() {
