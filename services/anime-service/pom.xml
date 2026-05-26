@@ -118,7 +118,8 @@
                     <target>25</target> <!-- depending on your project -->
                     <annotationProcessorPaths>
                         <path>
-                            
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
                         </path>
                         <path>
                             <groupId>org.mapstruct</groupId>
@@ -126,6 +127,11 @@
                             <version>${org.mapstruct.version}</version>
                         </path>
                         <!-- other annotation processors -->
+                        <Path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </Path>
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
