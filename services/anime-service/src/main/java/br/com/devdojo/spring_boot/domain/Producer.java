@@ -31,7 +31,7 @@ public class Producer {
         producers.addAll(List.of(mappa, studioBones, toeiAnimation));
     }
 
-    
+
     public static List<Producer> getProducers() {
         return Producer.producers;
     }
