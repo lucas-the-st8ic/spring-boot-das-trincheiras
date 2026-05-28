@@ -1,6 +1,7 @@
 package br.com.devdojo.spring_boot.controller;
 
 import br.com.devdojo.spring_boot.domain.Producer;
+import br.com.devdojo.spring_boot.mapper.ProducerMapper;
 import br.com.devdojo.spring_boot.request.ProducerPostRequest;
 import br.com.devdojo.spring_boot.response.ProducerGetResponse;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 @AllArgsConstructor
 public class ProducerController {
+    private static final ProducerMapper MAPPER = ProducerMapper.INSTANCE;
 
     @GetMapping
     public List<Producer> listAll(@RequestParam(required = false)
@@ -52,6 +54,8 @@ public class ProducerController {
     public ResponseEntity<ProducerGetResponse> save(@RequestBody ProducerPostRequest producerPostRequest,
                                                     @RequestHeader HttpHeaders headers) {
         log.info(headers.toString());
+        Producer producer1 = MAPPER.toProducer(producerPostRequest);
+
         var producer = Producer.builder()
                 .id(ThreadLocalRandom.current().nextLong(100_000))
                 .name(producerPostRequest.getName())
