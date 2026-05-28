@@ -54,22 +54,15 @@ public class ProducerController {
     public ResponseEntity<ProducerGetResponse> save(@RequestBody ProducerPostRequest producerPostRequest,
                                                     @RequestHeader HttpHeaders headers) {
         log.info(headers.toString());
-        Producer producer1 = MAPPER.toProducer(producerPostRequest);
+        var producer = MAPPER.toProducer(producerPostRequest);
 
-        var producer = Producer.builder()
-                .id(ThreadLocalRandom.current().nextLong(100_000))
-                .name(producerPostRequest.getName())
-                .createdAt(LocalDateTime.now())
-                .build();
+        var response = MAPPER.toproducerGetResponse(producer);
+
 
 
         Producer.getProducers().add(producer);
 
-        var response = ProducerGetResponse.builder()
-                .id(producer.getId())
-                .name(producer.getName())
-                .createdAt(LocalDateTime.now())
-                .build();
+
 
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
