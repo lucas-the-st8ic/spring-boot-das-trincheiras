@@ -55,7 +55,6 @@ public class ProducerController {
                                                     @RequestHeader HttpHeaders headers) {
         log.info(headers.toString());
         var producer = MAPPER.toProducer(producerPostRequest);
-
         var response = MAPPER.toproducerGetResponse(producer);
 
 
