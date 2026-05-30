@@ -57,13 +57,8 @@ public class ProducerController {
         var producer = MAPPER.toProducer(producerPostRequest);
         var response = MAPPER.toproducerGetResponse(producer);
 
-
-
         Producer.getProducers().add(producer);
-
-
-
-
+        
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
         //return ResponseEntity.status(HttpStatus.CREATED).body(producer);
     }
