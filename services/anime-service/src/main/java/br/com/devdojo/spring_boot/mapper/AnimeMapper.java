@@ -9,5 +9,5 @@ public interface AnimeMapper {
 
     AnimeMapper INSTANCE = Mappers.getMapper(AnimeMapper.class);
 
-    @Mapping(target = "")
+    @Mapping(target = "Nome");
 }
