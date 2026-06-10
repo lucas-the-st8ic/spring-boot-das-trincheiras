@@ -1,7 +1,10 @@
 package br.com.devdojo.spring_boot.controller;
 
 import br.com.devdojo.spring_boot.domain.Anime;
+import br.com.devdojo.spring_boot.mapper.AnimeMapper;
+import br.com.devdojo.spring_boot.response.AnimeGetResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("v1/animes")
 @Slf4j
 public class AnimeController {
-
+    public static final AnimeMapper MAPPER = AnimeMapper.INSTANCE;
     @GetMapping
     public List<Anime> listAll(@RequestParam(required = false)
                                     String name) {
@@ -27,14 +30,17 @@ public class AnimeController {
     }
 
     @GetMapping("{id}")
-    public Anime findById(@PathVariable Long id) {
+    public ResponseEntity <AnimeGetResponse> findById(@PathVariable Long id) {
+       log.debug("Request to find anime by id: {}", id);
 
-       return Anime.getAnimes()
+        var animeGetResponse = Anime.getAnimes()
                 .stream()
                 .filter(anime -> anime.getId()
                         .equals(id))
-                .findFirst().orElse(null);
-
+                .findFirst()
+               .map(MAPPER::toAnimeGetResponse)
+               .orElse(null);
+        return ResponseEntity.ok(animeGetResponse);
     }
 
     //Idempotente
