@@ -5,6 +5,8 @@ import br.com.devdojo.spring_boot.response.AnimeGetResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper
 public interface AnimeMapper {
 
@@ -14,4 +16,6 @@ public interface AnimeMapper {
     Anime toAnime(AnimePostRequest postRequest);*/
 
     AnimeGetResponse toAnimeGetResponse(Anime anime);
+
+    List<AnimeGetResponse> toAnimeGetResponseList(List<Anime> animes);
 }

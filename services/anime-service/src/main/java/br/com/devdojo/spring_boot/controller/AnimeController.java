@@ -17,17 +17,23 @@ import java.util.concurrent.TimeUnit;
 public class AnimeController {
     public static final AnimeMapper MAPPER = AnimeMapper.INSTANCE;
     @GetMapping
-    public List<Anime> listAll(@RequestParam(required = false)
+    public ResponseEntity<List<AnimeGetResponse>>  listAll(@RequestParam(required = false)
                                     String name) {
+
+        log.debug("Request received to list all animes, param name {}", name);
         var animes = Anime.getAnimes();
+        List<AnimeGetResponse> animeGetResponseList =
+                MAPPER.toAnimeGetResponseList(animes);
 
         if(name == null) {
-            return animes;
+            return ResponseEntity.ok(animeGetResponseList);
         }
 
-        return animes.stream().filter(anime -> anime.getName()
+        var response = animeGetResponseList.stream().filter(anime -> anime.getName()
                 .equalsIgnoreCase(name)).toList();
-    }
+
+        return ResponseEntity.ok(response);
+}
 
     @GetMapping("{id}")
     public ResponseEntity <AnimeGetResponse> findById(@PathVariable Long id) {
