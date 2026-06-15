@@ -2,11 +2,15 @@ package br.com.devdojo.spring_boot.controller;
 
 import br.com.devdojo.spring_boot.domain.Anime;
 import br.com.devdojo.spring_boot.mapper.AnimeMapper;
+import br.com.devdojo.spring_boot.request.AnimePostRequest;
 import br.com.devdojo.spring_boot.response.AnimeGetResponse;
+import br.com.devdojo.spring_boot.response.AnimePostResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
@@ -22,8 +26,7 @@ public class AnimeController {
 
         log.debug("Request received to list all animes, param name {}", name);
         var animes = Anime.getAnimes();
-        List<AnimeGetResponse> animeGetResponseList =
-                MAPPER.toAnimeGetResponseList(animes);
+        var animeGetResponseList = MAPPER.toAnimeGetResponseList(animes);
 
         if(name == null) {
             return ResponseEntity.ok(animeGetResponseList);
@@ -51,10 +54,15 @@ public class AnimeController {
 
     //Idempotente
     @PostMapping
-    public Anime save(@RequestBody Anime anime) {
-        anime.setId(ThreadLocalRandom.current().nextLong(100_000));
+    public ResponseEntity<AnimePostResponse> save(@RequestBody AnimePostRequest request) {
+        log.debug("Request to save anime : {}", request);
+        var anime = MAPPER.toAnime(request);
+
         Anime.getAnimes().add(anime);
-        return anime;
+
+        var response = MAPPER.toAnimePostResponse(anime);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
 }

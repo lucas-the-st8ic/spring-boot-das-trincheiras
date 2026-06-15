@@ -1,8 +1,12 @@
 package br.com.devdojo.spring_boot.controller;
 
 import br.com.devdojo.spring_boot.domain.Producer;
+import br.com.devdojo.spring_boot.domain.Producer;
 import br.com.devdojo.spring_boot.mapper.ProducerMapper;
 import br.com.devdojo.spring_boot.request.ProducerPostRequest;
+import br.com.devdojo.spring_boot.request.ProducerPostRequest;
+import br.com.devdojo.spring_boot.response.ProducerGetResponse;
+import br.com.devdojo.spring_boot.response.ProducerPostResponse;
 import br.com.devdojo.spring_boot.response.ProducerGetResponse;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
@@ -25,6 +29,52 @@ public class ProducerController {
     private static final ProducerMapper MAPPER = ProducerMapper.INSTANCE;
 
     @GetMapping
+    public ResponseEntity<List<ProducerGetResponse>>  listAll(@RequestParam(required = false)
+                                                           String name) {
+
+        log.debug("Request received to list all producers, param name {}", name);
+        var producers = Producer.getProducers();
+        var producerGetResponseList = MAPPER.toProducerGetResponseList(producers);
+
+        if(name == null) {
+            return ResponseEntity.ok(producerGetResponseList);
+        }
+
+        var response = producerGetResponseList.stream().filter(producer -> producer.getName()
+                .equalsIgnoreCase(name)).toList();
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity <ProducerGetResponse> findById(@PathVariable Long id) {
+        log.debug("Request to find producer by id: {}", id);
+
+        var producerGetResponse = Producer.getProducers()
+                .stream()
+                .filter(producer -> producer.getId()
+                        .equals(id))
+                .findFirst()
+                .map(MAPPER::toProducerGetResponse)
+                .orElse(null);
+        return ResponseEntity.ok(producerGetResponse);
+    }
+
+    //Idempotente
+    @PostMapping
+    public ResponseEntity<ProducerPostResponse> save(@RequestBody ProducerPostRequest request) {
+        log.debug("Request to save producer : {}", request);
+        var producer = MAPPER.toProducer(request);
+
+        Producer.getProducers().add(producer);
+
+        var response = MAPPER.toProducerPostResponse(producer);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+
+    /*@GetMapping
     public List<Producer> listAll(@RequestParam(required = false)
                                   String name) {
         var producers = Producer.getProducers();
@@ -61,5 +111,5 @@ public class ProducerController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
         //return ResponseEntity.status(HttpStatus.CREATED).body(producer);
-    }
+    }*/
 }
