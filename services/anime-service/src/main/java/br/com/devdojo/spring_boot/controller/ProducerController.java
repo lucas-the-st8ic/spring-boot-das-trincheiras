@@ -1,8 +1,10 @@
 package br.com.devdojo.spring_boot.controller;
 
 import br.com.devdojo.spring_boot.domain.Producer;
+import br.com.devdojo.spring_boot.domain.Producer;
 import br.com.devdojo.spring_boot.mapper.ProducerMapper;
 import br.com.devdojo.spring_boot.request.ProducerPostRequest;
+import br.com.devdojo.spring_boot.response.ProducerGetResponse;
 import br.com.devdojo.spring_boot.response.ProducerGetResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +23,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class ProducerController {
     private static final ProducerMapper MAPPER = ProducerMapper.INSTANCE;
 
-    @GetMapping
     public ResponseEntity<List<ProducerGetResponse>>  listAll(@RequestParam(required = false)
                                                            String name) {
 
@@ -48,10 +49,11 @@ public class ProducerController {
                 .filter(producer -> producer.getId()
                         .equals(id))
                 .findFirst()
-                .map(MAPPER::toProducerGetResponse)
+                .map(MAPPER::toproducerGetResponse)
                 .orElse(null);
         return ResponseEntity.ok(producerGetResponse);
     }
+    
 
     //Idempotente
   /*  @PostMapping

@@ -23,7 +23,4 @@ public interface ProducerMapper {
     List<ProducerGetResponse> toProducerGetResponseList(List<Producer> producers);
 
 
-    Producer toProducerPostResponse(Producer producer);
-
-    Object toProducerGetResponse(@org.jetbrains.annotations.NotNull Producer producer);
 }
