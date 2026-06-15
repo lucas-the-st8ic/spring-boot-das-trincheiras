@@ -1,23 +1,16 @@
 package br.com.devdojo.spring_boot.controller;
 
 import br.com.devdojo.spring_boot.domain.Producer;
-import br.com.devdojo.spring_boot.domain.Producer;
 import br.com.devdojo.spring_boot.mapper.ProducerMapper;
 import br.com.devdojo.spring_boot.request.ProducerPostRequest;
-import br.com.devdojo.spring_boot.request.ProducerPostRequest;
-import br.com.devdojo.spring_boot.response.ProducerGetResponse;
-import br.com.devdojo.spring_boot.response.ProducerPostResponse;
 import br.com.devdojo.spring_boot.response.ProducerGetResponse;
 import lombok.AllArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.*;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -61,7 +54,7 @@ public class ProducerController {
     }
 
     //Idempotente
-    @PostMapping
+  /*  @PostMapping
     public ResponseEntity<ProducerPostResponse> save(@RequestBody ProducerPostRequest request) {
         log.debug("Request to save producer : {}", request);
         var producer = MAPPER.toProducer(request);
@@ -71,7 +64,7 @@ public class ProducerController {
         var response = MAPPER.toProducerPostResponse(producer);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
+    }*/
 
 
     /*@GetMapping
@@ -97,7 +90,7 @@ public class ProducerController {
                 .findFirst().orElse(null);
 
     }
-
+*/
     //Idempotente
     @PostMapping(produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE,
     headers = "x-api-key=1234")
@@ -111,5 +104,5 @@ public class ProducerController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
         //return ResponseEntity.status(HttpStatus.CREATED).body(producer);
-    }*/
+    }
 }
