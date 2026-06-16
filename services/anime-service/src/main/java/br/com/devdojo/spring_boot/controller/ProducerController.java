@@ -7,8 +7,10 @@ import br.com.devdojo.spring_boot.response.ProducerGetResponse;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.awt.*;
 import java.time.LocalDateTime;
@@ -38,14 +40,17 @@ public class ProducerController {
     }
 
     @GetMapping("{id}")
-    public Producer findById(@PathVariable Long id) {
-
-        return Producer.getProducers()
+    public ResponseEntity<ProducerGetResponse> findById(@PathVariable Long id) {
+        log.debug("Request to find producer by id: {}", id);
+        var producerGetResponse = Producer.getProducers()
                 .stream()
                 .filter(producer -> producer.getId()
                         .equals(id))
-                .findFirst().orElse(null);
+                .findFirst()
+                .map(MAPPER::toproducerGetResponse)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not Found"));
 
+        return ResponseEntity.ok(producerGetResponse);
     }
 
     //Idempotente
@@ -62,4 +67,21 @@ public class ProducerController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
         //return ResponseEntity.status(HttpStatus.CREATED).body(producer);
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        log.debug("Request to delete producer by id: {}", id);
+
+        var producerToDelete = Producer.getProducers()
+            .stream()
+            .filter(producer -> producer.getId()
+                    .equals(id))
+            .findFirst()
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not Found"));
+
+        Producer.getProducers().remove(producerToDelete);
+
+        return ResponseEntity.noContent().build();
+    }
+
 }

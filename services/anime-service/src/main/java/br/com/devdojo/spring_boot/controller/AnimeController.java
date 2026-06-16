@@ -4,8 +4,10 @@ import br.com.devdojo.spring_boot.domain.Anime;
 import br.com.devdojo.spring_boot.mapper.AnimeMapper;
 import br.com.devdojo.spring_boot.response.AnimeGetResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -45,7 +47,8 @@ public class AnimeController {
                         .equals(id))
                 .findFirst()
                .map(MAPPER::toAnimeGetResponse)
-               .orElse(null);
+               .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not Found"));
+
         return ResponseEntity.ok(animeGetResponse);
     }
 
