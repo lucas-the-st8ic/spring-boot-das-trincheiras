@@ -6,6 +6,10 @@ threads:
   virtual:
    enabled: true
 
+logging:
+  level:
+    br.com.devdojo.spring_boot: debug
+
 web:
   error:
     include-stacktrace: on_param
