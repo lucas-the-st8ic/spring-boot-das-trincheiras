@@ -122,7 +122,7 @@ public class ProducerController {
             .filter(producer -> producer.getId()
                     .equals(id))
             .findFirst()
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not Found"));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not Found"));
 
         Producer.getProducers().remove(producerToDelete);
 

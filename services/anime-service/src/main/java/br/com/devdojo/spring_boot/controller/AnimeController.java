@@ -1,6 +1,7 @@
 package br.com.devdojo.spring_boot.controller;
 
 import br.com.devdojo.spring_boot.domain.Anime;
+import br.com.devdojo.spring_boot.domain.Producer;
 import br.com.devdojo.spring_boot.mapper.AnimeMapper;
 import br.com.devdojo.spring_boot.request.AnimePostRequest;
 import br.com.devdojo.spring_boot.response.AnimeGetResponse;
@@ -65,6 +66,23 @@ public class AnimeController {
         var response = MAPPER.toAnimePostResponse(anime);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        log.debug("Request to delete anime by id: {}", id);
+
+        var animeToDelete = Anime.getAnimes()
+                .stream()
+                .filter(anime -> anime.getId()
+                        .equals(id))
+                .findFirst()
+                .map(MAPPER::toAnimeGetResponse)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not Found"));
+
+        Anime.getAnimes().remove(animeToDelete);
+
+        return ResponseEntity.noContent().build();
     }
 
 }
