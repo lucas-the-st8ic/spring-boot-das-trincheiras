@@ -24,7 +24,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @AllArgsConstructor
 public class ProducerController {
     private static final ProducerMapper MAPPER = ProducerMapper.INSTANCE;
-
+    @GetMapping
     public ResponseEntity<List<ProducerGetResponse>>  listAll(@RequestParam(required = false)
                                                            String name) {
 
@@ -42,7 +42,7 @@ public class ProducerController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("{id}")
+/*    @GetMapping("{id}")
     public ResponseEntity <ProducerGetResponse> findById(@PathVariable Long id) {
         log.debug("Request to find producer by id: {}", id);
 
@@ -54,7 +54,7 @@ public class ProducerController {
                 .map(MAPPER::toproducerGetResponse)
                 .orElse(null);
         return ResponseEntity.ok(producerGetResponse);
-    }
+    }*/
     
 
     //Idempotente
@@ -71,7 +71,7 @@ public class ProducerController {
     }*/
 
 
-    /*@GetMapping
+/*    @GetMapping
     public List<Producer> listAll(@RequestParam(required = false)
                                   String name) {
         var producers = Producer.getProducers();
@@ -82,7 +82,7 @@ public class ProducerController {
 
         return producers.stream().filter(producer -> producer.getName()
                 .equalsIgnoreCase(name)).toList();
-    }
+    }*/
 
     @GetMapping("{id}")
     public ResponseEntity<ProducerGetResponse> findById(@PathVariable Long id) {
@@ -97,7 +97,6 @@ public class ProducerController {
 
         return ResponseEntity.ok(producerGetResponse);
     }
-*/
     //Idempotente
     @PostMapping(produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE,
     headers = "x-api-key=1234")
