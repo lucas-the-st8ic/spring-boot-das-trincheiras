@@ -8,6 +8,5 @@ import lombok.ToString;
 @Getter
 @ToString
 public class AnimePostRequest {
-    private long id;
     private String name;
 }

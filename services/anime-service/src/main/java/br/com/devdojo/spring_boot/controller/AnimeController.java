@@ -78,7 +78,6 @@ public class AnimeController {
                 .filter(anime -> anime.getId()
                         .equals(id))
                 .findFirst()
-                .map(MAPPER::toAnimeGetResponse)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not Found"));
 
         Anime.getAnimes().remove(animeToDelete);
@@ -95,7 +94,6 @@ public class AnimeController {
                 .filter(anime -> anime.getId()
                         .equals(request.getId()))
                 .findFirst()
-                .map(MAPPER::toAnimeGetResponse)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not Found"));
 
         var animeUpdated = MAPPER.toAnime(request);
