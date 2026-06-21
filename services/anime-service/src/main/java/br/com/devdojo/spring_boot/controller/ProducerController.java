@@ -22,7 +22,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class ProducerController {
     private static final ProducerMapper MAPPER = ProducerMapper.INSTANCE;
     @GetMapping
-    public ResponseEntity<List<ProducerGetResponse>>  listAll(@RequestParam(required = false)
+    public ResponseEntity<List<ProducerGetResponse>>listAll(@RequestParam(required = false)
                                                            String name) {
 
         log.debug("Request received to list all producers, param name {}", name);

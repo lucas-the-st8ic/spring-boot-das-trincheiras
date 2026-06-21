@@ -5,6 +5,7 @@ import br.com.devdojo.spring_boot.domain.Producer;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ProducerHardCodedRepository {
     private static final List<Producer> PRODUCERS = new ArrayList<>();
@@ -23,6 +24,19 @@ public class ProducerHardCodedRepository {
     }
 
     public static List<Producer> findAll() {
-        return Producer.PRODUCERS;
+        return PRODUCERS;
     }
+
+    public Optional<Producer> findById(Long id) {
+       return PRODUCERS.stream()
+                .filter(producer -> producer.getId().equals(id))
+                .findFirst();
+    }
+
+    public List<Producer> findByName(String name) {
+        return PRODUCERS.stream().filter(producer -> producer.getName()
+                .equalsIgnoreCase(name)).toList();
+    }
+
+    public List
 }
