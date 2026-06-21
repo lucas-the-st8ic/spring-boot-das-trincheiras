@@ -38,5 +38,17 @@ public class ProducerHardCodedRepository {
                 .equalsIgnoreCase(name)).toList();
     }
 
-    public List
+    public Producer save(Producer producer) {
+        PRODUCERS.add(producer);
+        return producer;
+    }
+
+    public void delete(Producer producer) {
+        PRODUCERS.remove(producer);
+    }
+
+    public void update(Producer producer) {
+        delete(producer);
+        save(producer);
+    }
 }
