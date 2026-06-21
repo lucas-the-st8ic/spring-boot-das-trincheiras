@@ -8,6 +8,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -19,7 +20,7 @@ public interface ProducerMapper {
     @Mapping(target = "id", expression = "java(java.util.concurrent.ThreadLocalRandom.current().nextLong(100_000))")
     Producer toProducer(ProducerPostRequest postRequest);
 
-    Producer toProducer(ProducerPutRequest request);
+    Producer toProducer(ProducerPutRequest request, LocalDateTime createdAt);
 
     ProducerGetResponse toproducerGetResponse(Producer producer);
 
