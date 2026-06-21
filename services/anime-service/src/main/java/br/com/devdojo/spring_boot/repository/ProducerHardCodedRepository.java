@@ -1,22 +1,13 @@
-package br.com.devdojo.spring_boot.domain;
+package br.com.devdojo.spring_boot.repository;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import br.com.devdojo.spring_boot.domain.Producer;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
-@Builder
-public class Producer {
-    private Long id;
-    private String name;
-    private LocalDateTime createdAt;
-    private String address;
-    private static List<Producer> PRODUCERS = new ArrayList<>();
+public class ProducerHardCodedRepository {
+    private static final List<Producer> PRODUCERS = new ArrayList<>();
 
     static {
         Producer madHouse = Producer.builder().id(01L)
@@ -31,9 +22,7 @@ public class Producer {
         PRODUCERS.addAll(List.of(madHouse, studioBones, toeiAnimation));
     }
 
-
-    public static List<Producer> getPRODUCERS() {
+    public static List<Producer> findAll() {
         return Producer.PRODUCERS;
     }
-
 }

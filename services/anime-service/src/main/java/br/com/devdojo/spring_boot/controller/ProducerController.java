@@ -1,22 +1,16 @@
 package br.com.devdojo.spring_boot.controller;
 
 import br.com.devdojo.spring_boot.domain.Producer;
-import br.com.devdojo.spring_boot.domain.Producer;
-import br.com.devdojo.spring_boot.domain.Producer;
 import br.com.devdojo.spring_boot.mapper.ProducerMapper;
 import br.com.devdojo.spring_boot.request.ProducerPutRequest;
 import br.com.devdojo.spring_boot.request.ProducerPostRequest;
-import br.com.devdojo.spring_boot.request.ProducerPutRequest;
-import br.com.devdojo.spring_boot.response.ProducerGetResponse;
 import br.com.devdojo.spring_boot.response.ProducerGetResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.Response;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.awt.*;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -32,7 +26,7 @@ public class ProducerController {
                                                            String name) {
 
         log.debug("Request received to list all producers, param name {}", name);
-        var producers = Producer.getProducers();
+        var producers = Producer.getPRODUCERS();
         var producerGetResponseList = MAPPER.toProducerGetResponseList(producers);
 
         if(name == null) {
@@ -90,7 +84,7 @@ public class ProducerController {
     @GetMapping("{id}")
     public ResponseEntity<ProducerGetResponse> findById(@PathVariable Long id) {
         log.debug("Request to find producer by id: {}", id);
-        var producerGetResponse = Producer.getProducers()
+        var producerGetResponse = Producer.getPRODUCERS()
                 .stream()
                 .filter(producer -> producer.getId()
                         .equals(id))
@@ -109,7 +103,7 @@ public class ProducerController {
         var producer = MAPPER.toProducer(producerPostRequest);
         var response = MAPPER.toproducerGetResponse(producer);
 
-        Producer.getProducers().add(producer);
+        Producer.getPRODUCERS().add(producer);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
         //return ResponseEntity.status(HttpStatus.CREATED).body(producer);
@@ -119,14 +113,14 @@ public class ProducerController {
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         log.debug("Request to delete producer by id: {}", id);
 
-        var producerToDelete = Producer.getProducers()
+        var producerToDelete = Producer.getPRODUCERS()
             .stream()
             .filter(producer -> producer.getId()
                     .equals(id))
             .findFirst()
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not Found"));
 
-        Producer.getProducers().remove(producerToDelete);
+        Producer.getPRODUCERS().remove(producerToDelete);
 
         return ResponseEntity.noContent().build();
     }
@@ -135,7 +129,7 @@ public class ProducerController {
     public ResponseEntity<Void> update(@RequestBody ProducerPutRequest request) {
         log.debug("Request to update producer {}", request);
 
-        var producerToRemove = Producer.getProducers()
+        var producerToRemove = Producer.getPRODUCERS()
                 .stream()
                 .filter(producer -> producer.getId()
                         .equals(request.getId()))
@@ -143,8 +137,8 @@ public class ProducerController {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not Found"));
 
         var producerUpdated = MAPPER.toProducer(request, producerToRemove.getCreatedAt());
-        Producer.getProducers().remove(producerToRemove);
-        Producer.getProducers().add(producerUpdated);
+        Producer.getPRODUCERS().remove(producerToRemove);
+        Producer.getPRODUCERS().add(producerUpdated);
 
         return ResponseEntity.noContent().build();
     }
