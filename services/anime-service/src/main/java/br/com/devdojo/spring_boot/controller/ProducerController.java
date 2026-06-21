@@ -2,8 +2,11 @@ package br.com.devdojo.spring_boot.controller;
 
 import br.com.devdojo.spring_boot.domain.Producer;
 import br.com.devdojo.spring_boot.domain.Producer;
+import br.com.devdojo.spring_boot.domain.Producer;
 import br.com.devdojo.spring_boot.mapper.ProducerMapper;
+import br.com.devdojo.spring_boot.request.ProducerPutRequest;
 import br.com.devdojo.spring_boot.request.ProducerPostRequest;
+import br.com.devdojo.spring_boot.request.ProducerPutRequest;
 import br.com.devdojo.spring_boot.response.ProducerGetResponse;
 import br.com.devdojo.spring_boot.response.ProducerGetResponse;
 import lombok.AllArgsConstructor;
@@ -124,6 +127,24 @@ public class ProducerController {
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not Found"));
 
         Producer.getProducers().remove(producerToDelete);
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> update(@RequestBody ProducerPutRequest request) {
+        log.debug("Request to update producer {}", request);
+
+        var producerToRemove = Producer.getProducers()
+                .stream()
+                .filter(producer -> producer.getId()
+                        .equals(request.getId()))
+                .findFirst()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producer not Found"));
+
+        var producerUpdated = MAPPER.toProducer(request);
+        Producer.getProducers().remove(producerToRemove);
+        Producer.getProducers().add(producerUpdated);
 
         return ResponseEntity.noContent().build();
     }
