@@ -23,7 +23,7 @@ public class ProducerHardCodedRepository {
         PRODUCERS.addAll(List.of(madHouse, studioBones, toeiAnimation));
     }
 
-    public static List<Producer> findAll() {
+    public  List<Producer> findAll() {
         return PRODUCERS;
     }
 
