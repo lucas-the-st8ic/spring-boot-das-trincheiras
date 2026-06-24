@@ -1,16 +1,16 @@
 package br.com.devdojo.spring_boot.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Anime {
+    @EqualsAndHashCode.Include
     private Long id;
     private String name;
     @Getter

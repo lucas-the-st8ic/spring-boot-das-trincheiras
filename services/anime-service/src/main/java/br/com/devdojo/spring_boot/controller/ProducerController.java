@@ -4,6 +4,7 @@ import br.com.devdojo.spring_boot.mapper.ProducerMapper;
 import br.com.devdojo.spring_boot.request.ProducerPostRequest;
 import br.com.devdojo.spring_boot.request.ProducerPutRequest;
 import br.com.devdojo.spring_boot.response.ProducerGetResponse;
+import br.com.devdojo.spring_boot.response.ProducerPostResponse;
 import br.com.devdojo.spring_boot.service.ProducerService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,9 +28,7 @@ public class ProducerController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProducerGetResponse>>listAll(@RequestParam(required = false)
-                                                           String name) {
-
+    public ResponseEntity<List<ProducerGetResponse>>listAll(@RequestParam(required = false) String name) {
         log.debug("Request received to list all producers, param name {}", name);
 
         var producers = service.findAll(name);
@@ -53,14 +52,14 @@ public class ProducerController {
     //Idempotente
     @PostMapping(produces = APPLICATION_JSON_VALUE, consumes = APPLICATION_JSON_VALUE,
     headers = "x-api-key=1234")
-    public ResponseEntity<ProducerGetResponse> save(@RequestBody ProducerPostRequest producerPostRequest,
-                                                    @RequestHeader HttpHeaders headers) {
+    public ResponseEntity<ProducerPostResponse> save(@RequestBody ProducerPostRequest producerPostRequest,
+                                                     @RequestHeader HttpHeaders headers) {
         log.info(headers.toString());
         var producer = MAPPER.toProducer(producerPostRequest);
 
         var producerSaved = service.save(producer);
 
-        var producerGetResponse = MAPPER.toproducerGetResponse(producerSaved);
+        var producerGetResponse = MAPPER.toproducerPostResponse(producerSaved);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(producerGetResponse);
         //return ResponseEntity.status(HttpStatus.CREATED).body(producer);

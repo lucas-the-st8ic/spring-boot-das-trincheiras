@@ -4,6 +4,7 @@ import br.com.devdojo.spring_boot.domain.Producer;
 import br.com.devdojo.spring_boot.request.ProducerPostRequest;
 import br.com.devdojo.spring_boot.request.ProducerPutRequest;
 import br.com.devdojo.spring_boot.response.ProducerGetResponse;
+import br.com.devdojo.spring_boot.response.ProducerPostResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -24,7 +25,8 @@ public interface ProducerMapper {
 
     ProducerGetResponse toproducerGetResponse(Producer producer);
 
-    List<ProducerGetResponse> toProducerGetResponseList(List<Producer> producers);
+    ProducerPostResponse toproducerPostResponse(Producer producer);
 
+    List<ProducerGetResponse> toProducerGetResponseList(List<Producer> producers);
 
 }
