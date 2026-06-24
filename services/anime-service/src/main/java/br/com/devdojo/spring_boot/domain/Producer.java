@@ -1,39 +1,21 @@
 package br.com.devdojo.spring_boot.domain;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
 @Builder
+@EqualsAndHashCode(of = "id")
 public class Producer {
     private Long id;
     private String name;
     private LocalDateTime createdAt;
     private String address;
-    private static List<Producer> PRODUCERS = new ArrayList<>();
 
-    static {
-        Producer madHouse = Producer.builder().id(01L)
-                .name("Madhouse").createdAt(LocalDateTime.now()).build();
-
-        Producer studioBones = Producer.builder().id(02L)
-                .name("Studio Bones").createdAt(LocalDateTime.now()).build();
-
-        Producer toeiAnimation = Producer.builder().id(03L)
-                .name("Toei Animation").createdAt(LocalDateTime.now()).build();
-
-        PRODUCERS.addAll(List.of(madHouse, studioBones, toeiAnimation));
-    }
-
-
-    public static List<Producer> getPRODUCERS() {
-        return Producer.PRODUCERS;
-    }
 
 }
