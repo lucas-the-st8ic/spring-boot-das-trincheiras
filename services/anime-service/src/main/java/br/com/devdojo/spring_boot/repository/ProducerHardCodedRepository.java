@@ -1,12 +1,16 @@
 package br.com.devdojo.spring_boot.repository;
 
 import br.com.devdojo.spring_boot.domain.Producer;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class ProducerHardCodedRepository {
     private static final List<Producer> PRODUCERS = new ArrayList<>();
 

@@ -6,7 +6,7 @@ import br.com.devdojo.spring_boot.request.ProducerPutRequest;
 import br.com.devdojo.spring_boot.response.ProducerGetResponse;
 import br.com.devdojo.spring_boot.response.ProducerPostResponse;
 import br.com.devdojo.spring_boot.service.ProducerService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -18,14 +18,10 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @RequestMapping("v1/producers")
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ProducerController {
     private static final ProducerMapper MAPPER = ProducerMapper.INSTANCE;
-    private ProducerService service;
-
-    public ProducerController() {
-        this.service = new ProducerService();
-    }
+    private final ProducerService service;
 
     @GetMapping
     public ResponseEntity<List<ProducerGetResponse>>listAll(@RequestParam(required = false) String name) {
@@ -35,8 +31,6 @@ public class ProducerController {
         var producerGetResponses = MAPPER.toProducerGetResponseList(producers);
         return ResponseEntity.ok(producerGetResponses);
     }
-
-
 
     @GetMapping("{id}")
     public ResponseEntity<ProducerGetResponse> findById(@PathVariable Long id) {
