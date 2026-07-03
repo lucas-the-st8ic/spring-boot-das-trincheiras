@@ -1,18 +1,23 @@
 package br.com.devdojo.spring_boot.repository;
 
 import br.com.devdojo.spring_boot.domain.Producer;
-import org.springframework.stereotype.Component;
+import external.dependency.Connection;
+import lombok.Data;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Data
 @Repository
+@Log4j2
 public class ProducerHardCodedRepository {
     private static final List<Producer> PRODUCERS = new ArrayList<>();
+
+    private final Connection connectionMongoDb;
 
     static {
         Producer madHouse = Producer.builder().id(01L)
@@ -27,17 +32,19 @@ public class ProducerHardCodedRepository {
         PRODUCERS.addAll(List.of(madHouse, studioBones, toeiAnimation));
     }
 
-    public  List<Producer> findAll() {
+
+    public List<Producer> findAll() {
         return PRODUCERS;
     }
 
     public Optional<Producer> findById(Long id) {
-       return PRODUCERS.stream()
+        return PRODUCERS.stream()
                 .filter(producer -> producer.getId().equals(id))
                 .findFirst();
     }
 
     public List<Producer> findByName(String name) {
+        log.debug(connectionMongoDb);
         return PRODUCERS.stream().filter(producer -> producer.getName()
                 .equalsIgnoreCase(name)).toList();
     }
