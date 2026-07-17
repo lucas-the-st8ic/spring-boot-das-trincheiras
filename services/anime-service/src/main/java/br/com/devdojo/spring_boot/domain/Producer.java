@@ -18,5 +18,4 @@ public class Producer {
     private LocalDateTime createdAt;
     private String address;
 
-
 }

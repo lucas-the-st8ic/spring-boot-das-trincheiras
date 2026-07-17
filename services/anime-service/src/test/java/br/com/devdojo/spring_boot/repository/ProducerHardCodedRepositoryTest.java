@@ -82,4 +82,51 @@ class ProducerHardCodedRepositoryTest {
         var producers = repository.findByName(expectedProducer.getName());
         Assertions.assertThat(producers).hasSize(1).contains(expectedProducer);
     }
+
+    @Test
+    @DisplayName("save creates a producer")
+    @Order(5)
+    void save_CreatesProducer_WhenSuccessful () {
+        BDDMockito.when(producerData.getProducers()).thenReturn(producerList);
+
+        var producerToSave = Producer.builder().id(99L)
+                .name("Avatar Studios").createdAt(LocalDateTime
+                        .now()).build();
+        var producer = repository.save(producerToSave);
+
+        Assertions.assertThat(producer).isEqualTo(producerToSave);
+
+        var produerSavedOptional = repository.findById(producerToSave.getId());
+        Assertions.assertThat(produerSavedOptional).isPresent().contains(producerToSave);
+    }
+
+    @Test
+    @DisplayName("delete removes a producer")
+    @Order(6)
+    void delete_RemovesProducer_WhenSuccessful () {
+        BDDMockito.when(producerData.getProducers()).thenReturn(producerList);
+
+        var producerToDelete = producerList.getFirst();
+        repository.delete(producerToDelete);
+        var producers = repository.findAll();
+        Assertions.assertThat(producers).isNotEmpty().doesNotContain(producerToDelete);
+
+    }
+
+    @Test
+    @DisplayName("update updates a producer")
+    @Order(7)
+    void update_UpdatesProducer_WhenSuccessful () {
+        BDDMockito.when(producerData.getProducers()).thenReturn(producerList);
+
+        var producerToUpdate = this.producerList.getFirst();
+        producerToUpdate.setName("Aniplex");
+
+        repository.update(producerToUpdate);
+
+        Assertions.assertThat(this.producerList).contains(producerToUpdate);
+        var producerUpdatedOptional = repository.findById(producerToUpdate.getId());
+        Assertions.assertThat(producerUpdatedOptional).isPresent();
+        Assertions.assertThat(producerUpdatedOptional.get().getName()).isEqualTo(producerToUpdate.getName());
+    }
 }
