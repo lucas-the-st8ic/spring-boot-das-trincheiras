@@ -21,12 +21,11 @@ class ProducerHardCodedRepositoryTest {
     private ProducerHardCodedRepository repository;
 
     @Mock
-    private ProducerData  producerData;
+    private ProducerData producerData;
     private final List<Producer> producerList = new ArrayList<>();
 
-
     @BeforeEach
-    void init () {
+    void init() {
         var ufotable = Producer.builder().id(01L)
                 .name("Ufotable").createdAt(LocalDateTime.now()).build();
 
@@ -44,7 +43,7 @@ class ProducerHardCodedRepositoryTest {
     @Test
     @DisplayName("findAll return a list with all producers")
     @Order(1)
-    void findAll_ReturnsAllProducers_WhenSuccessful () {
+    void findAll_ReturnsAllProducers_WhenSuccessful() {
         BDDMockito.when(producerData.getProducers()).thenReturn(producerList);
 
         var producers = repository.findAll();
@@ -54,7 +53,7 @@ class ProducerHardCodedRepositoryTest {
 
     @Test
     @DisplayName("findById return a producer with given id")
-    void findById_ReturnsProducerById_WhenSuccessful () {
+    void findById_ReturnsProducerById_WhenSuccessful() {
         BDDMockito.when(producerData.getProducers()).thenReturn(producerList);
 
         var expectedProducer = producerList.getFirst();
@@ -86,7 +85,7 @@ class ProducerHardCodedRepositoryTest {
     @Test
     @DisplayName("save creates a producer")
     @Order(5)
-    void save_CreatesProducer_WhenSuccessful () {
+    void save_CreatesProducer_WhenSuccessful() {
         BDDMockito.when(producerData.getProducers()).thenReturn(producerList);
 
         var producerToSave = Producer.builder().id(99L)
@@ -96,14 +95,14 @@ class ProducerHardCodedRepositoryTest {
 
         Assertions.assertThat(producer).isEqualTo(producerToSave);
 
-        var produerSavedOptional = repository.findById(producerToSave.getId());
-        Assertions.assertThat(produerSavedOptional).isPresent().contains(producerToSave);
+        var producerSavedOptional = repository.findById(producerToSave.getId());
+        Assertions.assertThat(producerSavedOptional).isPresent().contains(producerToSave);
     }
 
     @Test
     @DisplayName("delete removes a producer")
     @Order(6)
-    void delete_RemovesProducer_WhenSuccessful () {
+    void delete_RemovesProducer_WhenSuccessful() {
         BDDMockito.when(producerData.getProducers()).thenReturn(producerList);
 
         var producerToDelete = producerList.getFirst();
@@ -116,7 +115,7 @@ class ProducerHardCodedRepositoryTest {
     @Test
     @DisplayName("update updates a producer")
     @Order(7)
-    void update_UpdatesProducer_WhenSuccessful () {
+    void update_UpdatesProducer_WhenSuccessful() {
         BDDMockito.when(producerData.getProducers()).thenReturn(producerList);
 
         var producerToUpdate = this.producerList.getFirst();
