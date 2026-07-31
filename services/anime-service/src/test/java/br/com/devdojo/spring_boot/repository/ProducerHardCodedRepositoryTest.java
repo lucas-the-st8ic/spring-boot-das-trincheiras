@@ -37,7 +37,6 @@ class ProducerHardCodedRepositoryTest {
 
         producerList.addAll(List.of(ufotable, witStudio, studioGhibli));
 
-
     }
 
     @Test
