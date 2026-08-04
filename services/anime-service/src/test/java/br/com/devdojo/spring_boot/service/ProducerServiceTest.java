@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,7 +24,7 @@ class ProducerServiceTest {
 
     @Mock
     private ProducerHardCodedRepository repository;
-    private List<Producer> producerList;
+    private List<Producer> producerList = new ArrayList<>();
 
     @BeforeEach
     void init() {
@@ -58,4 +59,18 @@ class ProducerServiceTest {
         var producersFound = service.findAll(producer.getName());
         Assertions.assertThat(producersFound).containsAll(expectedProducersFound);
     }
+
+    @Test
+    @DisplayName("findAll returns an empty list when name is not found")
+    @Order(3)
+    void findByName_ReturnsEmptyList_WhenNameIsNull() {
+        var name = "not-found";
+
+        BDDMockito.when(repository.findByName(name)).thenReturn(Collections.emptyList());
+
+        var producers = service.findAll(name);
+        Assertions.assertThat(producers).isNotNull().isEmpty();
+
+    }
+
 }

@@ -63,7 +63,7 @@ class ProducerHardCodedRepositoryTest {
 
     @Test
     @DisplayName("findByName returns an empty list when name is null")
-    void findByName_ReturnsAllProducers_WhenNameIsNull() {
+    void findByName_ReturnsEmptyList_WhenNameIsNull() {
         BDDMockito.when(producerData.getProducers()).thenReturn(producerList);
 
         var producers = repository.findByName(null);
