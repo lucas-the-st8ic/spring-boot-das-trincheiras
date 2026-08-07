@@ -9,11 +9,13 @@ import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -74,5 +76,50 @@ class ProducerServiceTest {
 
     }
 
+    @Test
+    @DisplayName("findById return a producer with given id")
+    @Order(4)
+    void findById_ReturnsProducerById_WhenSuccessful() {
+        var expectedProducer = producerList.getFirst();
+        BDDMockito.when(repository.findById(expectedProducer.getId()))
+                .thenReturn(Optional.of(expectedProducer));
+
+        var producers = service.findByIdOrThrowNotFound(expectedProducer.getId());
+        Assertions.assertThat(producers).isEqualTo(expectedProducer);
+
+    }
+
+    @Test
+    @DisplayName("findById throws ResponseStatusException when producer is not found")
+    @Order(5)
+    void findById_ThrowsResponseStatusException_WhenProducerIsNotFound() {
+        var expectedProducer = producerList.getFirst();
+        BDDMockito.when(repository.findById(expectedProducer.getId()))
+                .thenReturn(Optional.empty());
+
+        Assertions.assertThatException()
+                .isThrownBy(() ->service.findByIdOrThrowNotFound(expectedProducer.getId()))
+                .isInstanceOf(ResponseStatusException.class);
+
+
+    }
+
+    @Test
+    @DisplayName("save creates a producer")
+    @Order(6)
+    void save_CreatesProducer_WhenSuccessful() {
+
+        var producerToSave = Producer.builder().id(99L)
+                .name("Avatar Studios").createdAt(LocalDateTime
+                        .now())
+                .address("USA").build();
+
+        BDDMockito.when(repository.save(producerToSave)).thenReturn(producerToSave);
+
+        var savedProducer = service.save(producerToSave);
+
+        Assertions.assertThat(savedProducer).isEqualTo(producerToSave).hasNoNullFieldsOrProperties();
+    }
+//38 - Testes Unitários - Service pt 02 minuto - 8:22
 
 }
