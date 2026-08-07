@@ -47,6 +47,7 @@ class ProducerServiceTest {
         Assertions.assertThat(producers).isNotNull().hasSameElementsAs(producerList);
 
     }
+
     @Test
     @DisplayName("findAll returns list with found object when name exists")
     @Order(2)
@@ -58,4 +59,5 @@ class ProducerServiceTest {
         var producersFound = service.findAll(producer.getName());
         Assertions.assertThat(producersFound).containsAll(expectedProducersFound);
     }
+
 }
