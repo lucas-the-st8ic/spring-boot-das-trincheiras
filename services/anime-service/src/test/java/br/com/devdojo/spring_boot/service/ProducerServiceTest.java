@@ -120,6 +120,49 @@ class ProducerServiceTest {
 
         Assertions.assertThat(savedProducer).isEqualTo(producerToSave).hasNoNullFieldsOrProperties();
     }
-//38 - Testes Unitários - Service pt 02 minuto - 8:22
 
+    @Test
+    @DisplayName("delete removes a producer")
+    @Order(7)
+    void delete_RemovesProducer_WhenSuccessful() {
+        var producerTodelete = producerList.getFirst();
+        BDDMockito.when(repository.findById(producerTodelete.getId()))
+                .thenReturn(Optional.of(producerTodelete));
+        BDDMockito.doNothing().when(repository).delete(producerTodelete);
+        Assertions.assertThatNoException().isThrownBy(() ->service.delete(producerTodelete.getId()));
+
+    }
+
+    @Test
+    @DisplayName("delete throws ResponseStatusException when producer is not found")
+    @Order(8)
+    void delete_ThrowsResponseStatusException_WhenProducerIsNotFound() {
+        var producerTodelete = producerList.getFirst();
+        BDDMockito.when(repository.findById(producerTodelete.getId()))
+                .thenReturn(Optional.empty());
+
+        Assertions.assertThatException()
+                .isThrownBy(() ->service.delete(producerTodelete.getId()))
+                .isInstanceOf(ResponseStatusException.class);
+    }
+
+    @Test
+    @DisplayName("update updates a producer")
+    @Order(9)
+    void update_UpdatesProducer_WhenSuccessful() {
+
+        var producerToUpdate = producerList.getFirst();
+        producerToUpdate.setName("Aniplex");
+
+        BDDMockito.when(repository.findById(producerToUpdate.getId()))
+                .thenReturn(Optional.of(producerToUpdate));
+        BDDMockito.doNothing().when(repository).update(producerToUpdate);
+
+        ;
+
+        Assertions.assertThatNoException().isThrownBy(() ->service.update(producerToUpdate));
+
+    }
+
+    //38 - Testes Unitários - Service pt 02- 17:21
 }
