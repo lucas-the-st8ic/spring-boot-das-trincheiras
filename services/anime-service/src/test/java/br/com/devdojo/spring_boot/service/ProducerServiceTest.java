@@ -158,11 +158,24 @@ class ProducerServiceTest {
                 .thenReturn(Optional.of(producerToUpdate));
         BDDMockito.doNothing().when(repository).update(producerToUpdate);
 
-        ;
-
         Assertions.assertThatNoException().isThrownBy(() ->service.update(producerToUpdate));
 
     }
 
-    //38 - Testes Unitários - Service pt 02- 17:21
+    @Test
+    @DisplayName("update throws ResponseStatusException when producer is not found")
+    @Order(10)
+    void update_ThrowsResponseStatusException_WhenProducerIsNotFound() {
+
+        var producerToUpdate = producerList.getFirst();
+
+        BDDMockito.when(repository.findById(producerToUpdate.getId()))
+                .thenReturn(Optional.empty());
+
+        Assertions.assertThatException()
+                .isThrownBy(() ->service.update(producerToUpdate))
+                .isInstanceOf(ResponseStatusException.class);
+    }
+
+
 }
